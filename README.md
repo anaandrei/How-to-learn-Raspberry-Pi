@@ -1,0 +1,5 @@
+How to learn Raspberry Pi
+DESCRIERE
+COMPONENTA ECHIPA
+CATEGORIE
+Link github ANAANDREI
