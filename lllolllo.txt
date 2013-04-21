@@ -1,0 +1,50 @@
+/*
+Title: How to learn Raspberry PI
+Autor1: Ana-Roxana RUSOIU 
+Autor2: Andrei SANDU
+server pentru controlul ledurilor(GPIO)
+*/
+
+#!/usr/bin/env python
+
+import urlparse
+from subprocess import call
+from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+import os
+
+os.system("/home/project.o 8 0")
+os.system("/home/project.o 9 0")
+os.system("/home/project.o 7 0")
+os.system("/home/project.o 11 0")
+
+class LEDHTTPRequestHandler(BaseHTTPRequestHandler):
+  def do_GET(self):
+		url = self.path
+		url = url.replace("/", "").replace("favicon.ico", "").replace("?", "")
+		if url == "" :
+			f = open('index.html')
+			self.send_response(200)
+			self.send_header('Content-Type', 'text/html')
+			self.end_headers()
+			self.wfile.write(f.read())
+			f.close()
+		else :
+			self.send_response(200)
+			self.send_header('Content-Type', 'text/html')
+			self.end_headers()
+			self.wfile.write('ok')
+			data = dict(urlparse.parse_qsl(url))
+			led = data["led"]
+			status = data["status"]
+			os.system("/home/project.o " + led + " " + status)
+		return
+
+def run():
+	print('http server is starting...')
+	server_address = ('0.0.0.0', 80)
+	httpd = HTTPServer(server_address, LEDHTTPRequestHandler)
+	print('http server is running...')
+	httpd.serve_forever()
+
+if __name__ == '__main__':
+    run()
