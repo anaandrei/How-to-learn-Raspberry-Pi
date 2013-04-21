@@ -1,14 +1,131 @@
 /*
-Preliminary work with jQuery
+Title: How to learn Raspberry PI
+Autor1: Ana-Roxana RUSOIU 
+Autor2: Andrei SANDU
+server pentru controlul ledurilor(GPIO)
 */
+
 #include <wiringPi.h>
 #include <stdio.h>
 #include <cstdlib>
 
+char exec0[255] = {0};
+char exec1[255] = {0};
+char exec2[255] = {0};
+
+void startLed(int l){
+	sprintf(exec0, "gpio mode %d out",l);
+	sprintf(exec1, "gpio write %d 1",l);
+	sprintf(exec2, "gpio write %d 1",l);
+	system(exec0);
+	system(exec1);
+	system(exec2);
+}
+
+void stopLed(int l){
+	sprintf(exec0, "gpio mode %d out",l);
+	sprintf(exec1, "gpio write %d 0",l);
+	sprintf(exec2, "gpio write %d 0",l);
+	system(exec0);
+	system(exec1);
+	system(exec2);
+}
+
+void stopAll(){
+	sprintf(exec0, "gpio mode 8 out");
+	sprintf(exec1, "gpio write 8 0");
+	sprintf(exec2, "gpio write 8 0");
+	system(exec0);
+	system(exec1);
+	system(exec2);
+	sprintf(exec0, "gpio mode 9 out");
+	sprintf(exec1, "gpio write 9 0");
+	sprintf(exec2, "gpio write 9 0");
+	system(exec0);
+	system(exec1);
+	system(exec2);
+	sprintf(exec0, "gpio mode 7 out");
+	sprintf(exec1, "gpio write 7 0");
+	sprintf(exec2, "gpio write 7 0");
+	system(exec0);
+	system(exec1);
+	system(exec2);
+	sprintf(exec0, "gpio mode 11 out");
+	sprintf(exec1, "gpio write 11 0");
+	sprintf(exec2, "gpio write 11 0");
+	system(exec0);
+	system(exec1);
+	system(exec2);
+}
+
+void startAll(){
+	sprintf(exec0, "gpio mode 8 out");
+	sprintf(exec1, "gpio write 8 1");
+	sprintf(exec2, "gpio write 8 1");
+	system(exec0);
+	system(exec1);
+	system(exec2);
+	sprintf(exec0, "gpio mode 9 out");
+	sprintf(exec1, "gpio write 9 1");
+	sprintf(exec2, "gpio write 9 1");
+	system(exec0);
+	system(exec1);
+	system(exec2);
+	sprintf(exec0, "gpio mode 7 out");
+	sprintf(exec1, "gpio write 7 1");
+	sprintf(exec2, "gpio write 7 1");
+	system(exec0);
+	system(exec1);
+	system(exec2);
+	sprintf(exec0, "gpio mode 11 out");
+	sprintf(exec1, "gpio write 11 1");
+	sprintf(exec2, "gpio write 11 1");
+	system(exec0);
+	system(exec1);
+	system(exec2);
+}
+
+void flash(){
+	startAll();
+	delay(500);
+	stopAll();
+	delay(500);
+	startAll();
+	delay(500);
+	stopAll();
+	delay(500);
+	startAll();
+	delay(500);
+	stopAll();
+	delay(500);
+	startAll();
+	delay(500);
+	stopAll();
+	delay(500);
+}
+
+void loop(){
+	startLed(8);
+	delay(300);
+	stopLed(8);
+	startLed(9);
+	delay(300);
+	stopLed(9);
+	startLed(7);
+	delay(300);
+	stopLed(7);
+	startLed(11);
+	delay(300);
+	stopLed(11);
+	delay(300);
+}
+
 void toggle(int led, int status) {
-	char exec0[255] = {0};
-	char exec1[255] = {0};
-	char exec2[255] = {0};
+	
+	if(led==33) {loop();}
+	if(led==44) {flash();}
+	
+	stopAll();
 	
 	sprintf(exec0, "gpio mode %d out", led);
 	sprintf(exec1, "gpio write %d %d ", led, status);
@@ -20,6 +137,5 @@ void toggle(int led, int status) {
 }
 
 int main(int argc, char *args[]) {
-	
 	toggle(atoi(args[1]), atoi(args[2]));
 }
