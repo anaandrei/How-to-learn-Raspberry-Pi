@@ -1,1 +1,25 @@
+/*
+Preliminary work with jQuery
+*/
+#include <wiringPi.h>
 #include <stdio.h>
+#include <cstdlib>
+
+void toggle(int led, int status) {
+	char exec0[255] = {0};
+	char exec1[255] = {0};
+	char exec2[255] = {0};
+	
+	sprintf(exec0, "gpio mode %d out", led);
+	sprintf(exec1, "gpio write %d %d ", led, status);
+	sprintf(exec2, "gpio write %d %d", led, status);
+	
+	system(exec0);
+	system(exec1);
+	system(exec2);
+}
+
+int main(int argc, char *args[]) {
+	
+	toggle(atoi(args[1]), atoi(args[2]));
+}
